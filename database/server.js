@@ -53,6 +53,16 @@ app.delete('/delete/:id',async(req,res)=>{
     }catch(err){
         res.status(500).send(err);
     }
+});
+
+app.post('/login',async(req,res)=>{
+    try{
+        const usermail= req.body.email;
+        const getmail= await user.findOne({email:usermail});
+        res.send(getmail);
+    }catch(error){
+        res.status(500).send(error);
+    }
 })
 app.listen(2300, () => {
   console.log("Server Is Running");
