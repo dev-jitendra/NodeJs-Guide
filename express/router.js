@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const middleware= require('./middleware')
 
+// router.use(middleware);
 // Define route for the root path ("/")
 router.get("/", (req, res) => {
+    // console.log(req.query);
   // Send the 'index.html' file located in the 'views' directory as the response
   res.render("index", {
     title: "home",
@@ -13,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 // Define route for the "/about" path
-router.get("/about", (req, res) => {
+router.get("/about",middleware, (req, res) => {
   // Send the 'home.html' file located in the 'views' directory as the response
   res.render("home",{
     title:"home"
