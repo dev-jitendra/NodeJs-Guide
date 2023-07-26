@@ -2,6 +2,7 @@ import express from "express";
 import user from "./database.js";
 import bcrypt from "bcryptjs";
 import cookieparser from "cookie-parser";
+import auth from "./authorization.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -12,13 +13,13 @@ router.post("/register", async (req, res) => {
   try {
     let data = new user(req.body);
     if (data.password === data.confpass) {
-        let emailvalidation = await user.findOne({email:data.email});
-        if(emailvalidation){
-            // res.send("This email already Exitst, Please Login")
-        }
-        const tocken =await data.generateTocken();
-        console.log("This tocken is user"+tocken);
-        res.cookie('jwt',tocken);
+      let emailvalidation = await user.findOne({ email: data.email });
+      if (emailvalidation) {
+        // res.send("This email already Exitst, Please Login")
+      }
+      const tocken = await data.generateTocken();
+      console.log("This tocken is user" + tocken);
+      res.cookie("jwt", tocken);
 
       let savedata = await data.save();
       // res.send(savedata);
@@ -47,9 +48,9 @@ router.post("/login", async (req, res) => {
       res.status(400).send(`Incorrect Password`);
       console.log("Login data Not Fetch");
     } else {
-        const tocken = await databasedata.generateTocken();
-        console.log("This tocken is user" + tocken);
-        res.cookie("jwt", tocken);
+      const tocken = await databasedata.generateTocken();
+      console.log("This tocken is user" + tocken);
+      res.cookie("jwt", tocken);
       res.send(`${req.cookies.jwt}`);
       // res.render("contact");
       console.log("Login data Fetched");
@@ -67,4 +68,20 @@ router.get("/loginn", async (req, res) => {
 router.get("/auth", async (req, res) => {
   res.render("auth");
 });
+
+router.get("/register", async (req, res) => {
+  res.render("index");
+});
+
+router.get("/logout", auth, async (req, res) => {
+  try{
+    req.user.tokens=[];
+    res.clearCookie("jwt");
+    await req.user.save();
+    res.render('login');
+  }catch(err){
+    req.status(400).send(err);
+  }
+});
+
 export default router;
