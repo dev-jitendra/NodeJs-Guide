@@ -8,11 +8,13 @@ router.get('/',(req,res)=>{
 
 router.post('/register',async(req,res)=>{
     try{
-        let data = new user(req,body);
+        let data = new user(req.body);
         let savedata = await data.save();
         res.send(savedata);
+        console.log("data Fetched");
     }catch(err){
-
+        res.status(500).send(err);
+        console.log("data Not Fetch");
     }
 })
 export default router;
