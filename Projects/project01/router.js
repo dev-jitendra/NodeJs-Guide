@@ -1,6 +1,7 @@
 import express from "express";
 import user from "./database.js";
 import bcrypt from "bcryptjs";
+import cookieparser from "cookie-parser";
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -49,7 +50,8 @@ router.post("/login", async (req, res) => {
         const tocken = await databasedata.generateTocken();
         console.log("This tocken is user" + tocken);
         res.cookie("jwt", tocken);
-      res.render("contact");
+      res.send(`${req.cookies.jwt}`);
+      // res.render("contact");
       console.log("Login data Fetched");
     }
   } catch (err) {
@@ -58,7 +60,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/loginn", async (req, res) => {
-  res.render("/login");
+router.get("/loginn", async (req, res) => {
+  res.render("login");
+});
+
+router.get("/auth", async (req, res) => {
+  res.render("auth");
 });
 export default router;
