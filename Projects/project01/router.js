@@ -10,7 +10,8 @@ router.post('/register',async(req,res)=>{
     try{
         let data = new user(req.body);
         let savedata = await data.save();
-        res.send(savedata);
+        res.render("login");
+        // res.send(savedata);
         console.log("data Fetched");
     }catch(err){
         res.status(500).send(err);
