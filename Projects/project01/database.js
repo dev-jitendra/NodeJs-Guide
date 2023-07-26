@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/project01")
@@ -13,29 +14,48 @@ mongoose
 const schema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   phone: {
     type: Number,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
-  confpass:{
-    type:String,
-    require:true
-  }
+  confpass: {
+    type: String,
+    require: true,
+  },
+  tockens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
-schema.pre("save",async function(next){
-  this.password = await bcrypt.hash(this.password,10);
+schema.methods.generateTocken = async function () {
+  try {
+    const tockenuser = jwt.sign({ _id: this.id.toString() }, process.env.KEY);
+      this.tockens = this.tockens.concat({ tocken: tockenuser });
+      await this.save();
+    // console.log(tockenuser);
+    return tockenuser;
+  } catch (err) {
+    console.log(err);
+  }
+};
+schema.pre("save", async function (next) {
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 

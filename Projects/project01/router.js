@@ -15,6 +15,10 @@ router.post("/register", async (req, res) => {
         if(emailvalidation){
             // res.send("This email already Exitst, Please Login")
         }
+        const tocken =await data.generateTocken();
+        console.log("This tocken is user"+tocken);
+        res.cookie('jwt',tocken);
+
       let savedata = await data.save();
       // res.send(savedata);
       res.render("login");
@@ -42,6 +46,9 @@ router.post("/login", async (req, res) => {
       res.status(400).send(`Incorrect Password`);
       console.log("Login data Not Fetch");
     } else {
+        const tocken = await databasedata.generateTocken();
+        console.log("This tocken is user" + tocken);
+        res.cookie("jwt", tocken);
       res.render("contact");
       console.log("Login data Fetched");
     }
