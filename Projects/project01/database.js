@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/project01")
@@ -31,6 +32,11 @@ const schema = new mongoose.Schema({
     type:String,
     require:true
   }
+});
+
+schema.pre("save",async function(next){
+  this.password = await bcrypt.hash(this.password,10);
+  next();
 });
 
 const usermodel = mongoose.model("userdetail", schema);
