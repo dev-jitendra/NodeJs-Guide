@@ -10,8 +10,10 @@ export default function TextForm(props) {
     console.log("On Change");
   };
 
-  const [text, setText] = useState("Enter text here");
-  setText("New text");
+const [text, setText] = useState("Enter text here");
+
+// Later in your code, you can update the value of 'text' like this:
+// setText("New text");
   return (
     <>
       <div>
@@ -23,7 +25,7 @@ export default function TextForm(props) {
           id="myBox"
           rows="8"
         ></textarea>
-        <button className="btn btn-primary" onClick={handleUpClick}>
+        <button className="btn btn-primary my-3" onClick={handleUpClick}>
           Convert to Upper Case
         </button>
       </div>
