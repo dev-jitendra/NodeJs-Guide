@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function Navbar(props) {
+  useEffect(() => {
+    // Set the initial state of the toggle switch based on the mode
+    const toggleSwitch = document.getElementById("flexSwitchCheckDefault");
+    toggleSwitch.checked = props.mode === "dark";
+  }, [props.mode]);
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container">
+    <nav
+      className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}
+      style={{
+        backgroundColor: props.mode === "light" ? "gray" : "light",
+        color: props.mode === "light" ? "black" : "white",
+      }}
+    >
+      <div className="container-fluid">
         <a className="navbar-brand" href="/">
           {props.title}
         </a>
@@ -42,6 +54,23 @@ function Navbar(props) {
               Search
             </button>
           </form>
+        </div>
+        <div className="form-check form-switch mx-4">
+          <input
+            onClick={props.toggleMode}
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label
+            className={`form-check-label text-light ${
+              props.mode === "dark" ? "light" : "dark"
+            }`}
+            htmlFor="flexSwitchCheckDefault"
+          >
+            Dark
+          </label>
         </div>
       </div>
     </nav>

@@ -1,36 +1,38 @@
 import React, { useState } from "react";
 
 export default function TextForm(props) {
+  const [text, setText] = useState("Enter text here");
+
   const handleUpClick = () => {
-    // console.log("Upper Case Was Clicked");
-    let newText= text.toUpperCase();
-    setText(newText)
+    let newText = text.toUpperCase();
+    setText(newText);
   };
+
   const handleLoClick = () => {
-    // console.log("Upper Case Was Clicked");
-    let newText= text.toLowerCase();
-    setText(newText)
+    let newText = text.toLowerCase();
+    setText(newText);
   };
+
   const handleClearClick = () => {
-    // console.log("Upper Case Was Clicked");
-    let newText= '';
-    setText(newText)
+    setText("");
   };
 
   const handleOnChange = (event) => {
-    console.log("On Change");
-    setText(event.target.value)
+    setText(event.target.value);
   };
 
-const [text, setText] = useState("Enter text here");
-
-// Later in your code, you can update the value of 'text' like this:
-// setText("New text");
   return (
     <>
-      <div className="container">
+      <div
+        className="container"
+        style={{ color: props.mode === "light" ? "black" : "light" }}
+      >
         <h2>Enter Your Text</h2>
         <textarea
+          style={{
+            backgroundColor: props.mode === "light" ? "gray" : "light",
+            color: props.mode === "light" ? "black" : "light",
+          }}
           className="form-control"
           value={text}
           onChange={handleOnChange}
@@ -43,11 +45,17 @@ const [text, setText] = useState("Enter text here");
         <button className="btn btn-primary my-3 mx-3" onClick={handleLoClick}>
           Convert to Lower Case
         </button>
-        <button className="btn btn-primary my-3 mx-3" onClick={handleClearClick}>
+        <button
+          className="btn btn-primary my-3 mx-3"
+          onClick={handleClearClick}
+        >
           Clear Text
         </button>
       </div>
-      <div className="container my-3">
+      <div
+        className="container my-3"
+        style={{ color: props.mode === "light" ? "black" : "light" }}
+      >
         <h3>Your Text Summary</h3>
         <p>
           {text.split(" ").length} in words and {text.length} characters.
