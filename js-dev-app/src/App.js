@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Navbar from "./components/Navbar";
-// import TextForm from "./components/TextForm";
-// import About from "./components/About";
+import TextForm from "./components/TextForm";
+import About from "./components/About";
 import Alert from './components/Alert'
 
 function App() {
@@ -20,10 +20,10 @@ function App() {
 
   return (
     <>
-      {/* <Navbar title="TextUtil" mode={mode} toggleMode={toggleMode} /> */}
+      <Navbar title="TextUtil" mode={mode} toggleMode={toggleMode} />
       <div className="container my-3">
-        {/* <TextForm heading="Enter the text to analyze" mode={mode} /> */}
-        {/* <About mode={mode} /> */}
+        <TextForm heading="Enter the text to analyze" mode={mode} />
+        <About mode={mode} />
         <Alert/>
       </div>
     </>
